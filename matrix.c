@@ -15,6 +15,25 @@ void print_matrix(double ** M, int N)
 	}
 }
 
+void print_vector(double * M, int N)
+{
+	printf("%8s: ", "Fast");
+	for( int i = 0; i < N; i++ )
+	{
+		if( i == N/2 )
+		{
+			printf("\n");
+			printf("%8s: ", "Thermal");
+		}
+		if( M[i] != 0)
+			printf("%9.2e ", M[i]);
+		else
+			printf("%9d ", 0);
+	}
+
+	printf("\n");
+}
+
 double RMS( double * new, double * old, int N)
 {
 	double sum = 0;
@@ -25,11 +44,11 @@ double RMS( double * new, double * old, int N)
 	return sqrt(sum);
 }
 
-void swap_vector(double * A, double * B)
+void swap_vector(double ** A, double ** B)
 {
-	double * tmp = A;
-	A = B;
-	B = tmp;
+	double * tmp = *A;
+	*A = *B;
+	*B = tmp;
 }
 
 void GE_invert(double ** A, double * b, double * x, int N )

@@ -17,7 +17,7 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Guess initial flux vector
 	for( int i = 0; i < N; i++ )
-		flux_old[i] = 0.99*i;
+		flux_old[i] = 0.01;
 
 	// Normalize flux
 	normalize_vector( flux_old, N );
@@ -28,14 +28,13 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	printf("F:\n");
-	print_matrix(F, N);
+	//printf("F:\n");
+	//print_matrix(F, N);
 
 	// Initialize H
 	double ** H = build_H( materials, geometry );
-	printf("H:\n");
-	print_matrix(H, N);
-	return;
+	//printf("H:\n");
+	//print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
@@ -76,6 +75,10 @@ void run_problem(Material * materials, Geometry geometry)
 
 		///////////////////////////////////////////////////////////////////
 		// Check for Convergence
+		printf("old source:\n");
+		print_vector(b_old, N);
+		printf("new source:\n");
+		print_vector(b, N);
 		double source_RMS = (b, b_old, N); 
 		double flux_RMS = (flux, flux_old, N);
 		if( source_RMS <= 1e-7 && flux_RMS <= 1e-5 )
@@ -93,12 +96,20 @@ void run_problem(Material * materials, Geometry geometry)
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
-		swap_vector(b, b_old);
-		swap_vector(flux, flux_old);
+		printf("old source:\n");
+		print_vector(b_old, N);
+		printf("new source:\n");
+		print_vector(b, N);
+		swap_vector(&b, &b_old);
+		printf("old source:\n");
+		print_vector(b_old, N);
+		printf("new source:\n");
+		print_vector(b, N);
+		swap_vector(&flux, &flux_old);
 		k_old = k;
 		iterations++;
 
-		if( iterations > 10)
+		if( iterations > 3)
 			break;
 
 	}
