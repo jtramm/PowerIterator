@@ -156,11 +156,11 @@ double ** build_F( Material * materials, Geometry geometry )
 
 	// Fill upper left
 	for( int i = 0; i < N; i++ )
-		F[i][i] =   -del * materials[geometry.material_ID[i]].Sigma_F1;	
+		F[i][i] =   del * materials[geometry.material_ID[i]].Sigma_F1;	
 
 	// Fill upper right
 	for( int i = 0; i < N; i++ )
-		F[i][i+N] = -del * materials[geometry.material_ID[i]].Sigma_F2;	
+		F[i][i+N] = del * materials[geometry.material_ID[i]].Sigma_F2;	
 
 	// Leave the rest as zeros
 
