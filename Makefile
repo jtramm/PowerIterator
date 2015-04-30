@@ -4,6 +4,7 @@ program = PI
 
 source = \
 main.c \
+matrix.c \
 init.c
 
 obj = $(source:.c=.o)
@@ -41,4 +42,4 @@ run:
 graph:
 	gnuplot graph.gp
 edit:
-	vim -p $(source)
+	vim -p $(source) PI_header.h
