@@ -1,5 +1,12 @@
 #include "PI_header.h"
 
+void swap_vector(double * A, double * B)
+{
+	double * tmp = A;
+	A = B;
+	B = tmp;
+}
+
 // Solves Ax = b via inversion (Gaussian Elimination) of A
 // Authors: R. Sureshkumar     (MIT) (10 January 1997)
 //          Gregory J. McRae   (MIT) (22 October 1997)
