@@ -156,11 +156,11 @@ double ** build_F( Material * materials, Geometry geometry )
 
 	// Fill upper left
 	for( int i = 0; i < N; i++ )
-		F[i][i] =   del * materials[geometry.material_ID[i]].Sigma_F1;	
+		F[i][i] =   -del * materials[geometry.material_ID[i]].Sigma_F1;	
 
 	// Fill upper right
 	for( int i = 0; i < N; i++ )
-		F[i][i+N] = del * materials[geometry.material_ID[i]].Sigma_F2;	
+		F[i][i+N] = -del * materials[geometry.material_ID[i]].Sigma_F2;	
 
 	// Leave the rest as zeros
 
@@ -171,7 +171,7 @@ Geometry init_geometry_problem_1(void)
 {
 	Geometry G;
 	// Need to rest to 300 / 5
-	G.N = 30 / 5; 
+	G.N = 300 / 5; 
 	G.del = 5.0;
 	G.material_ID = (int *) malloc(G.N * sizeof(int));
 	for( int i = 0; i < G.N; i++ )
