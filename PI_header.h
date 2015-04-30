@@ -23,6 +23,8 @@ typedef struct{
 Material * init_materials(void);
 Geometry init_geometry_problem_1(void);
 double ** build_F( Material * materials, Geometry geometry );
+double ** H = build_H( materials, geometry );
+double D_effective( materials, geometry, int a, int b, int group);
 
 // matrix.c
 void normalize_vector( double * vec, int N );

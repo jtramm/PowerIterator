@@ -2,8 +2,10 @@
 
 void run_problem(Material * materials, Geometry geometry)
 {
+	// vector & matrix dimension is 2x the geometry (i.e., fast+slow)
 	int N = geometry.N * 2;
-	// Initialize computational flux vectors, each of length 2N (thermal+fast)
+
+	// Initialize computational flux vectors
 	double * flux_old = (double *) calloc( N, sizeof(double));
 	double * flux =     (double *) calloc( N, sizeof(double));
 	// Initialize source vectors
@@ -25,6 +27,7 @@ void run_problem(Material * materials, Geometry geometry)
 	double ** F = build_F( materials, geometry );
 
 	// Initialize H
+	double ** H = build_H( materials, geometry );
 
 	// Begin iteration
 	while(1)
