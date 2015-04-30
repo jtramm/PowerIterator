@@ -1,6 +1,7 @@
 #include"PI_header.h"
 
-double D_effective( materials, geometry, int a, int b, int group)
+double D_effective( Material * materials, Geometry geometry,
+		int a, int b, int group)
 {
 	// BC's - Need to apply!
 	if( a < 0 )
@@ -33,7 +34,7 @@ double D_effective( materials, geometry, int a, int b, int group)
 	return D_eff;
 }
 
-double ** H = build_H( materials, geometry )
+double ** build_H( Material * materials, Geometry geometry )
 {
 	int N = geometry.N;
 	double ** H = alloc_matrix(2*N); 
@@ -61,7 +62,7 @@ double ** H = build_H( materials, geometry )
 			else if( i == j )
 			{
 				int mat_id = geometry.material_ID[i];
-				H[i][j] = (materials[mat_id].SigmaA1 +
+				H[i][j] = (materials[mat_id].Sigma_A1 +
 						materials[mat_id].Sigma_S) * geometry.del +
 					D_left + D_right;
 			}
@@ -87,10 +88,10 @@ double ** H = build_H( materials, geometry )
 		for( int j = 0; j < N; j++ )
 		{
 			// Main Diagonal
-			else if( i == j )
+			if( i == j )
 			{
 				int mat_id = geometry.material_ID[i];
-				H[N+i][j] = materials[i].Sigma_A * geometry.del;
+				H[N+i][j] = materials[i].Sigma_S * geometry.del;
 			}
 		}
 	}
@@ -118,7 +119,7 @@ double ** H = build_H( materials, geometry )
 			else if( i == j )
 			{
 				int mat_id = geometry.material_ID[i];
-				H[i+N][j+N] = materials[mat_id].SigmaA2 * geometry.del +
+				H[i+N][j+N] = materials[mat_id].Sigma_A2 * geometry.del +
 					D_left + D_right;
 			}
 			// Off-Diagonal Lower
@@ -133,6 +134,8 @@ double ** H = build_H( materials, geometry )
 			}
 		}
 	}
+
+	return H;
 }
 
 double ** build_F( Material * materials, Geometry geometry )
