@@ -29,3 +29,4 @@ void normalize_vector( double * vec, int N );
 double ** alloc_matrix( int N );
 void scale_vector( double scalar, double * vector, int N );
 void matrix_vector_product( int N, double **A, double * x, double * b );
+void GE_invert(double ** a, double * b, double * x, int n );
