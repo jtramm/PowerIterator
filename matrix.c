@@ -1,5 +1,20 @@
 #include "PI_header.h"
 
+void print_matrix(double ** M, int N)
+{
+	for( int i = 0; i < N; i++ )
+	{
+		for( int j = 0; j < N; j++ )
+		{
+			if( M[i][j] != 0)
+				printf("%9.2e ", M[i][j]);
+			else
+				printf("%9d ", 0);
+		}
+		printf("\n");
+	}
+}
+
 double RMS( double * new, double * old, int N)
 {
 	double sum = 0;

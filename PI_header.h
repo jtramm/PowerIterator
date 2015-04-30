@@ -36,3 +36,4 @@ void GE_invert(double ** a, double * b, double * x, int n );
 void swap_matrix(double ** A, double ** B);
 void swap_vector(double * A, double * B);
 double RMS( double * new, double * old, int N);
+void print_matrix(double ** M, int N);

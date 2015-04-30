@@ -28,9 +28,14 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
+	printf("F:\n");
+	print_matrix(F, N);
 
 	// Initialize H
 	double ** H = build_H( materials, geometry );
+	printf("H:\n");
+	print_matrix(H, N);
+	return;
 
 	// Iteration counter
 	int iterations = 1;
@@ -59,6 +64,7 @@ void run_problem(Material * materials, Geometry geometry)
 		double new_integral = 0;
 		for( int i = 0; i < N; i++ )
 			new_integral += integral_vec[i];
+
 		matrix_vector_product(N, F, flux_old, integral_vec);
 		double old_integral = 0;
 		for( int i = 0; i < N; i++ )
