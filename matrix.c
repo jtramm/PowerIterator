@@ -1,6 +1,8 @@
 #include "PI_header.h"
 
 // Solves Ax = b via inversion (Gaussian Elimination) of A
+// Authors: R. Sureshkumar     (MIT) (10 January 1997)
+//          Gregory J. McRae   (MIT) (22 October 1997)
 void GE_invert(double ** a, double * b, double * x, int n )
 {
 	int   i,j,k,m,rowx;
