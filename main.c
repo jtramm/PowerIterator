@@ -17,7 +17,7 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Guess initial flux vector
 	for( int i = 0; i < N; i++ )
-		flux_old[i] = 0.99;
+		flux_old[i] = 0.99*i;
 
 	// Normalize flux
 	normalize_vector( flux_old, N );
@@ -64,6 +64,8 @@ void run_problem(Material * materials, Geometry geometry)
 		for( int i = 0; i < N; i++ )
 			old_integral += integral_vec[i];
 
+		printf("new integral = %lf  old_integral = %lf\n",
+				new_integral, old_integral);
 		k = new_integral / old_integral * k_old;
 
 		///////////////////////////////////////////////////////////////////
@@ -74,9 +76,10 @@ void run_problem(Material * materials, Geometry geometry)
 		{
 			printf("Converged in %d iterations\n", iterations);
 			normalize_vector( flux, N);
+			break;
 		}
-		printf("Iteration %d complete: Source_RMS = %lf flux_RMS = %lf \n",
-				iterations, source_RMS, flux_RMS);
+		printf("Iteration %d complete: Source_RMS = %lf flux_RMS = %lf k_eff = %lf\n",
+				iterations, source_RMS, flux_RMS, k);
 		
 		///////////////////////////////////////////////////////////////////
 		// 5 - Normalize Flux
@@ -88,6 +91,9 @@ void run_problem(Material * materials, Geometry geometry)
 		swap_vector(flux, flux_old);
 		k_old = k;
 		iterations++;
+
+		if( iterations > 10)
+			break;
 
 	}
 	
@@ -102,6 +108,7 @@ int main(void)
 	Geometry geometry = init_geometry_problem_1();
 
 	run_problem(materials, geometry);
+
 	return 0;
 }
 

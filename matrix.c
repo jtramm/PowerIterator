@@ -81,12 +81,13 @@ double ** alloc_matrix( int N )
 // Matrix vector product, length N:  Ax = b
 void matrix_vector_product( int N, double **A, double * x, double * b )
 {
-	#pragma omp parallel for default(none) shared(A, x, b, N) schedule(dynamic)
+	//#pragma omp parallel for default(none) shared(A, x, b, N) schedule(dynamic)
 	for( int i = 0; i < N; i++ )
 	{
 		double row_val = 0;
-		#pragma simd
+		//#pragma simd
 		for( int j = 0; j < N; j++ )
 			row_val += A[i][j] * x[i];
+		b[i] = row_val;
 	}
 }
