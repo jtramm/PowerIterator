@@ -12,5 +12,12 @@ typedef struct{
 	double Sigma_F2;
 } Material;
 
+typedef struct{
+	int N;
+	double del;
+	int * material_ID;
+} Geometry;
+
 // init.c
 Material * init_materials(void);
+Geometry init_geometry_problem_1(void);
