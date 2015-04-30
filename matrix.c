@@ -7,50 +7,32 @@ void swap_vector(double * A, double * B)
 	B = tmp;
 }
 
-// Solves Ax = b via inversion (Gaussian Elimination) of A
-// Authors: R. Sureshkumar     (MIT) (10 January 1997)
-//          Gregory J. McRae   (MIT) (22 October 1997)
-void GE_invert(double ** a, double * b, double * x, int n )
+void GE_invert(double ** A, double * b, double * x, int N )
 {
-	int   i,j,k,m,rowx;
-	double xfac,temp,temp1,amax;
+	// GE - upper-triangulate
+	double scale;
+	for (int j=0;j<N;++j)           /* loop over columns */
+		for (int i=j+1;i<N;++i)      /* loop over rows beneath pivot */
+		{
+			if (A[i][j] != 0)
+			{
+				scale = A[i][j]/A[j][j];  /* zero out based on pivot */
+				for (int k=0;k<N;++k)
+					A[i][k] = A[i][k] - A[j][k]*scale;
+				b[i] = b[i] - b[j]*scale; /* same for b */
+			}
+		}
 
-	rowx = 0;
-	for (k=1; k<=n-1; ++k)
+	// GE - Back substitution
+	x[N-1] = b[N-1]/A[N-1][N-1];
+	for (int i=N-2;i>=0;--i)
 	{
-		amax = (double) fabs(a[k][k]) ;
-		m = k;
-		for (i=k+1; i<=n; i++){
-			xfac = (double) fabs(a[i][k]);
-			if(xfac > amax) {amax = xfac; m=i;}
+		x[i] = b[i];
+		for (int j=i+1;j<N;++j)
+		{
+			x[i] -= A[i][j]*x[j];
 		}
-		if(m != k) {
-			rowx = rowx+1;
-			temp1 = b[k];
-			b[k]  = b[m];
-			b[m]  = temp1;
-			for(j=k; j<=n; j++) {
-				temp = a[k][j];
-				a[k][j] = a[m][j];
-				a[m][j] = temp;
-			}
-		}
-		for (i=k+1; i<=n; ++i) {
-			xfac = a[i][k]/a[k][k];
-
-			for (j=k+1; j<=n; ++j) {
-				a[i][j] = a[i][j]-xfac*a[k][j];
-			}
-			b[i] = b[i]-xfac*b[k];
-		}
-		for (j=1; j<=n; ++j) {
-			k=n-j+1;
-			x[k] = b[k];
-			for(i=k+1; i<=n; ++i) {
-				x[k] = x[k]-a[k][i]*x[i];
-			}
-			x[k] = x[k]/a[k][k];
-		}
+		x[i]/=A[i][i];
 	}
 }
 
