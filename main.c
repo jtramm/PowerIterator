@@ -90,6 +90,7 @@ int main(void)
 	// Initialize geometry for a problem
 	Geometry geometry = init_geometry_problem_1();
 
+	run_problem(materials, geometry);
 	return 0;
 }
 
