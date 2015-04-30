@@ -35,3 +35,4 @@ void matrix_vector_product( int N, double **A, double * x, double * b );
 void GE_invert(double ** a, double * b, double * x, int n );
 void swap_matrix(double ** A, double ** B);
 void swap_vector(double * A, double * B);
+double RMS( double * new, double * old, int N);

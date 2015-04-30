@@ -17,13 +17,13 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Guess initial flux vector
 	for( int i = 0; i < N; i++ )
-		flux_old[i] = 1.0;
+		flux_old[i] = 0.99;
 
 	// Normalize flux
 	normalize_vector( flux_old, N );
 
 	// Intialize eigenvalues
-	double k_old = 1.0;
+	double k_old = 0.99;
 	double k = 1.0;
 
 	// Initialize F
@@ -32,7 +32,9 @@ void run_problem(Material * materials, Geometry geometry)
 	// Initialize H
 	double ** H = build_H( materials, geometry );
 
-	// Begin iteration
+	// Iteration counter
+	int iterations = 1;
+
 	while(1)
 	{
 		///////////////////////////////////////////////////////////////////
@@ -66,6 +68,15 @@ void run_problem(Material * materials, Geometry geometry)
 
 		///////////////////////////////////////////////////////////////////
 		// Check for Convergence
+		double source_RMS = (b, b_old, N); 
+		double flux_RMS = (flux, flux_old, N);
+		if( source_RMS <= 1e-7 && flux_RMS <= 1e-5 )
+		{
+			printf("Converged in %d iterations\n", iterations);
+			normalize_vector( flux, N);
+		}
+		printf("Iteration %d complete: Source_RMS = %lf flux_RMS = %lf \n",
+				iterations, source_RMS, flux_RMS);
 		
 		///////////////////////////////////////////////////////////////////
 		// 5 - Normalize Flux
@@ -76,8 +87,8 @@ void run_problem(Material * materials, Geometry geometry)
 		swap_vector(b, b_old);
 		swap_vector(flux, flux_old);
 		k_old = k;
+		iterations++;
 
-		break;
 	}
 	
 }

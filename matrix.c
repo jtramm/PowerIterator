@@ -1,5 +1,15 @@
 #include "PI_header.h"
 
+double RMS( double * new, double * old, int N)
+{
+	double sum = 0;
+	for( int i = 0; i < N; i++ )
+		sum += (new[i] - old[i]) / new[i];
+	sum = sum * 1.0 / N;
+
+	return sqrt(sum);
+}
+
 void swap_vector(double * A, double * B)
 {
 	double * tmp = A;
