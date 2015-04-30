@@ -1,5 +1,23 @@
 #include"PI_header.h"
 
+double ** build_F( Material * materials, Geometry geometry )
+{
+	int N = geometry.N;
+	double ** F = alloc_matrix(2*N); 
+
+	// Fill upper left
+	for( int i = 0; i < N; i++ )
+		F[i][i] = materials[geometry.material_ID[i]].Sigma_F1;	
+
+	// Fill upper right
+	for( int i = 0; i < N; i++ )
+		F[i][i+N] = materials[geometry.material_ID[i]].Sigma_F1;	
+
+	// Leave the rest as zeros
+	
+	return F;
+}
+
 Geometry init_geometry_problem_1(void)
 {
 	Geometry G;

@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<omp.h>
 
 typedef struct{
 	double D1;
@@ -24,3 +25,6 @@ Geometry init_geometry_problem_1(void);
 
 // matrix.c
 void normalize_vector( double * vec, int N );
+double ** alloc_matrix( int N );
+void scale_vector( double scalar, double * vector, int N );
+void matrix_vector_product( int N, double **A, double * x, double * b );
