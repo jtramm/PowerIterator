@@ -3,7 +3,7 @@
 double D_effective( Material * materials, Geometry geometry,
 		int a, int b, int group)
 {
-	// BC's - Need to apply!
+	// BC's
 	if( a < 0 )
 	{
 		return 0.0;
@@ -16,7 +16,7 @@ double D_effective( Material * materials, Geometry geometry,
 	int mat_idx_a = geometry.material_ID[a];
 	int mat_idx_b = geometry.material_ID[b];
 
-	double D_a, D_b;
+	double D_a, D_b, D_eff;
 
 	if( group == 1 )
 	{
@@ -29,7 +29,13 @@ double D_effective( Material * materials, Geometry geometry,
 		D_b = materials[mat_idx_b].D2;
 	}
 	
-	double D_eff = 2.0 * D_a * D_b / ( geometry.del * (D_a + D_b));
+	// center (BC)
+	if( a == b )
+		D_eff = -2.0 * D_a / geometry.del *
+			( 1.0 / (1.0 + 4.0 * D_a / geometry.del));
+	// Regular
+	else
+		D_eff = 2.0 * D_a * D_b / ( geometry.del * (D_a + D_b));
 
 	return D_eff;
 }
@@ -47,21 +53,30 @@ double ** build_H( Material * materials, Geometry geometry )
 			// Calculate D effective for left and right cases
 			double D_left =  D_effective(materials, geometry, j-1, j, 1);
 			double D_right = D_effective(materials, geometry, j, j+1, 1);
+			double D_center = D_effective(materials, geometry, j, j, 1);
+
+			// Lookup Material type for cell
+			int mat_id = geometry.material_ID[i];
 
 			// Boundary Conditions
 			if( i == 0 && j == 0 )
 			{
 				// apply left BC for Group 1
+				H[i][j] = (materials[mat_id].Sigma_A1 +
+						materials[mat_id].Sigma_S) * geometry.del +
+					D_center + D_right;
 			}
 			else if( i == N-1 && j == N-1 )
 			{
 				// apply right BC for Group 1
+				H[i][j] = (materials[mat_id].Sigma_A1 +
+						materials[mat_id].Sigma_S) * geometry.del +
+					D_center + D_left;
 			}
 
 			// Main Diagonal
 			else if( i == j )
 			{
-				int mat_id = geometry.material_ID[i];
 				H[i][j] = (materials[mat_id].Sigma_A1 +
 						materials[mat_id].Sigma_S) * geometry.del +
 					D_left + D_right;
@@ -69,12 +84,12 @@ double ** build_H( Material * materials, Geometry geometry )
 			// Off-Diagonal Lower
 			else if( j == i-1 )
 			{
-				H[i][j] = D_left;
+				H[i][j] = -D_left;
 			}
 			// Off-Diagonal Upper
 			else if( j == i+1 )
 			{
-				H[i][j] = D_right;
+				H[i][j] = -D_right;
 			}
 		}
 	}
@@ -104,15 +119,23 @@ double ** build_H( Material * materials, Geometry geometry )
 			// Calculate D effective for left and right cases
 			double D_left =  D_effective(materials, geometry, j-1, j, 2);
 			double D_right = D_effective(materials, geometry, j, j+1, 2);
+			double D_center = D_effective(materials, geometry, j, j, 2);
+			
+			// Lookup Material type for cell
+			int mat_id = geometry.material_ID[i];
 
 			// Boundary Conditions
 			if( i == 0 && j == 0 )
 			{
-				// apply left BC for Group 1
+				// apply left BC for Group 2
+				H[i+N][j+N] = materials[mat_id].Sigma_A2 * geometry.del +
+					D_center + D_right;
 			}
 			else if( i == N-1 && j == N-1 )
 			{
-				// apply right BC for Group 1
+				// apply right BC for Group 2
+				H[i+N][j+N] = materials[mat_id].Sigma_A2 * geometry.del +
+					D_center + D_left;
 			}
 
 			// Main Diagonal
@@ -125,12 +148,12 @@ double ** build_H( Material * materials, Geometry geometry )
 			// Off-Diagonal Lower
 			else if( j == i-1 )
 			{
-				H[i+N][j+N] = D_left;
+				H[i+N][j+N] = -D_left;
 			}
 			// Off-Diagonal Upper
 			else if( j == i+1 )
 			{
-				H[i+N][j+N] = D_right;
+				H[i+N][j+N] = -D_right;
 			}
 		}
 	}
