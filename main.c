@@ -22,7 +22,9 @@ void run_problem(Material * materials, Geometry geometry)
 	double k = 1.0;
 
 	// Initialize F
-	double ** F = build_F( materials, geometry )
+	double ** F = build_F( materials, geometry );
+
+
 
 	
 }
