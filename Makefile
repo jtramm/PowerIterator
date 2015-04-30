@@ -3,7 +3,8 @@ COMPILER    = gnu
 program = PI
 
 source = \
-main.c 
+main.c \
+init.c
 
 obj = $(source:.c=.o)
 

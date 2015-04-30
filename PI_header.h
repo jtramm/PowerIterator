@@ -11,3 +11,6 @@ typedef struct{
 	double Sigma_F1;
 	double Sigma_F2;
 } Material;
+
+// init.c
+Material * init_materials(void);
