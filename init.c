@@ -31,7 +31,7 @@ double D_effective( Material * materials, Geometry geometry,
 	
 	// center (BC)
 	if( a == b )
-		D_eff = -2.0 * D_a / geometry.del *
+		D_eff = 2.0 * D_a / geometry.del *
 			( 1.0 / (1.0 + 4.0 * D_a / geometry.del));
 	// Regular
 	else

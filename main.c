@@ -93,7 +93,9 @@ void run_problem(Material * materials, Geometry geometry)
 		
 		///////////////////////////////////////////////////////////////////
 		// 5 - Normalize Flux
+		//print_vector(flux, N);
 		normalize_vector( flux, N);
+		//print_vector(flux, N);
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
@@ -102,7 +104,7 @@ void run_problem(Material * materials, Geometry geometry)
 		k_old = k;
 		iterations++;
 
-		if( iterations > 10)
+		if( iterations > 10000)
 			break;
 
 	}
