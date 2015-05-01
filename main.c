@@ -76,7 +76,9 @@ void run_problem(Material * materials, Geometry geometry)
 		memcpy(b_tmp, b, N*sizeof(double));
 
 		// Solve via Gaussian Elimination matrix inversion
+	print_results(materials, geometry, flux_old, b);
 		GE_invert(H, b_tmp, flux, N);
+	print_results(materials, geometry, flux, b);
 
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
@@ -116,8 +118,8 @@ void run_problem(Material * materials, Geometry geometry)
 		//print_vector(flux, N);
 		normalize_vector( flux, N);
 		//print_vector(flux, N);
-		//if( iterations > 0)
-		//	break;
+		if( iterations > 0)
+			break;
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
