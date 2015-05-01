@@ -22,6 +22,7 @@ typedef struct{
 // init.c
 Material * init_materials(void);
 Geometry init_geometry_problem_1(void);
+Geometry init_geometry_problem_2(void);
 double ** build_F( Material * materials, Geometry geometry );
 double ** build_H( Material * materials, Geometry geometry );
 double D_effective( Material * materials, Geometry geometry,

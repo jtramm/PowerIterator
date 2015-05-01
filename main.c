@@ -69,8 +69,6 @@ void run_problem(Material * materials, Geometry geometry)
 		for( int i = 0; i < N; i++ )
 			old_integral += integral_vec[i];
 
-		printf("new integral = %lf  old_integral = %lf\n",
-				new_integral, old_integral);
 		k = new_integral / old_integral * k_old;
 
 		///////////////////////////////////////////////////////////////////
@@ -88,7 +86,7 @@ void run_problem(Material * materials, Geometry geometry)
 			normalize_vector( flux, N);
 			break;
 		}
-		printf("Iteration %d complete: Source_RMS = %lf flux_RMS = %lf k_eff = %lf\n",
+		printf("Iteration %5d:   Source_RMS = %9.3e   flux_RMS = %9.3e   k_eff = %lf\n",
 				iterations, source_RMS, flux_RMS, k);
 		
 		///////////////////////////////////////////////////////////////////
@@ -104,7 +102,7 @@ void run_problem(Material * materials, Geometry geometry)
 		k_old = k;
 		iterations++;
 
-		if( iterations > 10000)
+		if( iterations > 10)
 			break;
 
 	}

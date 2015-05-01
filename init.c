@@ -180,6 +180,23 @@ Geometry init_geometry_problem_1(void)
 	return G;
 }
 
+Geometry init_geometry_problem_2(void)
+{
+	Geometry G;
+	G.N = 300 / 5; 
+	G.del = 5.0;
+	G.material_ID = (int *) malloc(G.N * sizeof(int));
+	for( int i = 0; i < G.N; i++ )
+	{
+		if( i < 5 || i > G.N-5 )
+			G.material_ID[i] = 5;
+		else
+			G.material_ID[i] = 1;
+	}
+
+	return G;
+}
+
 Material * init_materials(void)
 {
 	Material * materials = (Material *) malloc( 8 * sizeof(Material));
