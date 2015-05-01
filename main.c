@@ -28,13 +28,14 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	//printf("F:\n");
-	//print_matrix(F, N);
+	printf("F:\n");
+	print_matrix(F, N);
 
 	// Initialize H
 	double ** H = build_H( materials, geometry );
-	//printf("H:\n");
-	//print_matrix(H, N);
+	double ** H_scratch = build_H( materials, geometry);
+	printf("H:\n");
+	print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
@@ -54,7 +55,8 @@ void run_problem(Material * materials, Geometry geometry)
 		// 3 - Perform Linear Solve
 		
 		// Solves H * phi = b for phi
-		GE_invert(H, b, flux, N);
+		memcpy(H_scratch[0],H[0],N*N*sizeof(double));
+		GE_invert(H_scratch, b, flux, N);
 		
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
@@ -118,6 +120,38 @@ int main(void)
 	Geometry geometry = init_geometry_problem_1();
 
 	run_problem(materials, geometry);
+	
+	double ** A = alloc_matrix(4);
+	A[0][0] = 4;
+	A[0][1] = 2;
+	A[0][2] = -1;
+	A[0][3] = 8;
+
+	A[1][0] = 3;
+	A[1][1] = 7;
+	A[1][2] = 6;
+	A[1][3] = 5;
+
+	A[2][0] = 2;
+	A[2][1] = 12;
+	A[2][2] = 18;
+	A[2][3] = 1;
+
+	A[3][0] = -10;
+	A[3][1] = 40;
+	A[3][2] = 1;
+	A[3][3] = 3;
+
+	double * b = (double *) malloc( 4 * sizeof(double));
+	double * x = (double *) malloc( 4 * sizeof(double));
+
+	b[0] = 5;
+	b[1] = 9;
+	b[2] = 2;
+	b[3] = -3;
+
+	GE_invert(A,b,x,4);
+
 
 	return 0;
 }
