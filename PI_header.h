@@ -20,6 +20,8 @@ typedef struct{
 	int * material_ID;
 } Geometry;
 
+void run_problem(Material * materials, Geometry geometry);
+
 // init.c
 Material * init_materials(void);
 Geometry init_geometry_problem_1(void);

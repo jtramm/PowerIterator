@@ -1,5 +1,19 @@
 #include"PI_header.h"
 
+int main(void)
+{
+	// Initialize materials
+	Material * materials = init_materials(); 
+
+	// Initialize geometry for a problem
+	Geometry geometry = init_geometry_problem_1();
+
+	// Run the Problem
+	run_problem(materials, geometry);
+	
+	return 0;
+}
+
 void run_problem(Material * materials, Geometry geometry)
 {
 	// vector & matrix dimension is 2x the geometry (i.e., fast+slow)
@@ -28,8 +42,8 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	printf("F:\n");
-	print_matrix(F, N);
+	//printf("F:\n");
+	//print_matrix(F, N);
 
 	// Initialize H
 	double ** H =          build_H( materials, geometry );
@@ -104,55 +118,11 @@ void run_problem(Material * materials, Geometry geometry)
 		k_old = k;
 		iterations++;
 
-		if( iterations > 10)
+		if( iterations > 10000)
 			break;
 
 	}
 	
 }
 
-
-int main(void)
-{
-	// Initialize materials
-	Material * materials = init_materials(); 
-	// Initialize geometry for a problem
-	Geometry geometry = init_geometry_problem_1();
-
-	run_problem(materials, geometry);
-	
-	double ** A = alloc_matrix(4);
-	A[0][0] = 4;
-	A[0][1] = 2;
-	A[0][2] = -1;
-	A[0][3] = 8;
-
-	A[1][0] = 3;
-	A[1][1] = 7;
-	A[1][2] = 6;
-	A[1][3] = 5;
-
-	A[2][0] = 2;
-	A[2][1] = 12;
-	A[2][2] = 18;
-	A[2][3] = 1;
-
-	A[3][0] = -10;
-	A[3][1] = 40;
-	A[3][2] = 1;
-	A[3][3] = 3;
-
-	double * b = (double *) malloc( 4 * sizeof(double));
-	double * x = (double *) malloc( 4 * sizeof(double));
-
-	b[0] = 5;
-	b[1] = 9;
-	b[2] = 2;
-	b[3] = -3;
-
-	GE_invert(A,b,x,4);
-
-
-	return 0;
-}
 
