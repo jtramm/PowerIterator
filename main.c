@@ -4,13 +4,28 @@ int main(void)
 {
 	// Initialize materials
 	Material * materials = init_materials(); 
+	Geometry geometry;
 
-	// Initialize geometry for a problem
-	Geometry geometry = init_geometry_problem_1();
+	// Problem 1
+	geometry = init_geometry_problem_1();
+	run_problem(materials, geometry);
 
-	// Run the Problem
+	// Problem 2
+	geometry = init_geometry_problem_2();
 	run_problem(materials, geometry);
 	
+	// Problem 3
+	geometry = init_geometry_problem_3();
+	run_problem(materials, geometry);
+
+	// Problem 4
+	geometry = init_geometry_problem_4();
+	run_problem(materials, geometry);
+	
+	// Problem 5
+	geometry = init_geometry_problem_5();
+	run_problem(materials, geometry);
+
 	return 0;
 }
 
@@ -44,14 +59,14 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	printf("F:\n");
-	print_matrix(F, N);
+	//printf("F:\n");
+	//print_matrix(F, N);
 
 	// Initialize H
 	double ** H =          build_H( materials, geometry );
 	double ** H_original = build_H( materials, geometry );
-	printf("H:\n");
-	print_matrix(H, N);
+	//printf("H:\n");
+	//print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
@@ -76,9 +91,7 @@ void run_problem(Material * materials, Geometry geometry)
 		memcpy(b_tmp, b, N*sizeof(double));
 
 		// Solve via Gaussian Elimination matrix inversion
-	print_results(materials, geometry, flux_old, b);
 		GE_invert(H, b_tmp, flux, N);
-	print_results(materials, geometry, flux, b);
 
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
@@ -106,20 +119,16 @@ void run_problem(Material * materials, Geometry geometry)
 		double flux_RMS = RMS(flux, flux_old, N);
 		if( source_RMS <= 1e-7 && flux_RMS <= 1e-5 )
 		{
-			printf("Converged in %d iterations\n", iterations);
+			printf("Iteration %5d:   Source_RMS = %9.3e   flux_RMS = %9.3e   k_eff = %lf\n",
+				iterations, source_RMS, flux_RMS, k);
 			normalize_vector( flux, N);
 			break;
 		}
-		printf("Iteration %5d:   Source_RMS = %9.3e   flux_RMS = %9.3e   k_eff = %lf\n",
-				iterations, source_RMS, flux_RMS, k);
 
 		///////////////////////////////////////////////////////////////////
 		// 5 - Normalize Flux
-		//print_vector(flux, N);
+
 		normalize_vector( flux, N);
-		//print_vector(flux, N);
-		if( iterations > 0)
-			break;
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
@@ -132,6 +141,6 @@ void run_problem(Material * materials, Geometry geometry)
 			break;
 
 	}
-	print_results(materials, geometry, flux, b);
+	//print_results(materials, geometry, flux, b);
 
 }

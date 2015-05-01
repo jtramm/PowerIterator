@@ -191,7 +191,64 @@ Geometry init_geometry_problem_2(void)
 		if( i < 5 || i > G.N-5 )
 			G.material_ID[i] = 5;
 		else
-			G.material_ID[i] = 1;
+			G.material_ID[i] = 2;
+	}
+
+	return G;
+}
+
+Geometry init_geometry_problem_3(void)
+{
+	Geometry G;
+	G.N = 300; 
+	G.del = 1.0;
+	G.material_ID = (int *) malloc(G.N * sizeof(int));
+	for( int i = 0; i < G.N; i++ )
+	{
+		if( i < 25 || i > G.N-25 )
+			G.material_ID[i] = 5;
+		else
+			G.material_ID[i] = 2;
+	}
+
+	return G;
+}
+
+Geometry init_geometry_problem_4(void)
+{
+	Geometry G;
+	G.N = 300; 
+	G.del = 1.0;
+	G.material_ID = (int *) malloc(G.N * sizeof(int));
+	for( int i = 0; i < G.N; i++ )
+	{
+		if( i < 25 || i > G.N-25 )
+			G.material_ID[i] = 5;
+		else if( i < 40 || i > G.N-40 )
+			G.material_ID[i] = 4;
+		else
+			G.material_ID[i] = 3;
+	}
+
+	return G;
+}
+
+Geometry init_geometry_problem_5(void)
+{
+	Geometry G;
+	G.N = 300; 
+	G.del = 1.0;
+	G.material_ID = (int *) malloc(G.N * sizeof(int));
+	for( int i = 0; i < G.N; i++ )
+	{
+		if( i < 23 || i > G.N-23 )
+			G.material_ID[i] = 7;
+		else if( i < 25 || i > G.N-25 )
+			G.material_ID[i] = 6;
+		else if( i < 40 || i > G.N-40 )
+			G.material_ID[i] = 4;
+		else
+			G.material_ID[i] = 3;
 	}
 
 	return G;
