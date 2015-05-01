@@ -32,10 +32,10 @@ void run_problem(Material * materials, Geometry geometry)
 	print_matrix(F, N);
 
 	// Initialize H
-	double ** H = build_H( materials, geometry );
-	double ** H_scratch = build_H( materials, geometry);
-	printf("H:\n");
-	print_matrix(H, N);
+	double ** H =          build_H( materials, geometry );
+	double ** H_original = build_H( materials, geometry );
+	//printf("H:\n");
+	//print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
@@ -55,8 +55,8 @@ void run_problem(Material * materials, Geometry geometry)
 		// 3 - Perform Linear Solve
 		
 		// Solves H * phi = b for phi
-		memcpy(H_scratch[0],H[0],N*N*sizeof(double));
-		GE_invert(H_scratch, b, flux, N);
+		memcpy(H[0],H_original[0],N*N*sizeof(double));
+		GE_invert(H, b, flux, N);
 		
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
