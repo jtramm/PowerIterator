@@ -164,3 +164,17 @@ void GE_test(void)
 
 	printf("x = [ %lf, %lf, %lf, %lf ]\n", x[0], x[1], x[2], x[3]);
 }
+void print_results(Material * materials, Geometry geometry, double * flux, double * b)
+{
+	printf("Location, Fast Flux, Thermal Flux, Fast Source, Thermal Source\n");
+	for( int i = 0; i < geometry.N; i++ )
+	{
+		printf("%6.2lf\t%6.3lf\t%6.3lf\t%6.3lf\t%6.3lf\n",
+				geometry.del/2.0 + geometry.del*i,
+				flux[i],
+				flux[i+geometry.N],
+				b[i],
+				b[i+geometry.N]
+			  );
+	}
+}

@@ -14,20 +14,6 @@ int main(void)
 	return 0;
 }
 
-void print_results(Material * materials, Geometry geometry, double * flux, double * b)
-{
-	printf("Location, Fast Flux, Thermal Flux, Fast Source, Thermal Source\n");
-	for( int i = 0; i < geometry.N; i++ )
-	{
-		printf("%6.2lf\t%6.3lf\t%6.3lf\t%6.3lf\t%6.3lf\n",
-				geometry.del/2.0 + geometry.del*i,
-				flux[i],
-				flux[i+geometry.N],
-				b[i],
-				b[i+geometry.N]
-			  );
-	}
-}
 
 void run_problem(Material * materials, Geometry geometry)
 {
@@ -40,6 +26,7 @@ void run_problem(Material * materials, Geometry geometry)
 	// Initialize source vectors
 	double * b_old =        (double *) calloc( N, sizeof(double));
 	double * b =            (double *) calloc( N, sizeof(double));
+	double * b_tmp =        (double *) calloc( N, sizeof(double));
 
 	// Holding space for the integral
 	double * integral_vec = (double *) calloc( N, sizeof(double));
@@ -48,7 +35,7 @@ void run_problem(Material * materials, Geometry geometry)
 	for( int i = 0; i < N; i++ )
 		flux_old[i] = i+1;
 
-	// Normalize flux
+	// Normalize Initial flux
 	normalize_vector( flux_old, N );
 
 	// Intialize eigenvalues
@@ -57,35 +44,39 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	//printf("F:\n");
-	//print_matrix(F, N);
+	printf("F:\n");
+	print_matrix(F, N);
 
 	// Initialize H
 	double ** H =          build_H( materials, geometry );
 	double ** H_original = build_H( materials, geometry );
-	//printf("H:\n");
-	//print_matrix(H, N);
+	printf("H:\n");
+	print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
 
+	// Power Iteration Loop (runs until convergence criteria met)
 	while(1)
 	{
 		///////////////////////////////////////////////////////////////////
-		// 2 - Compute Source
+		// 2 - Compute Source:             b = F * flux_old
 
 		// Update the Source
-		// b = F * flux_old
 		matrix_vector_product( N, F, flux_old, b );
+
 		// Scale source by eigenvalue
 		scale_vector( 1.0 / k_old, b, N);
 
 		///////////////////////////////////////////////////////////////////
-		// 3 - Perform Linear Solve
+		// 3 - Perform Linear Solve:       flux = H^-1 * b
 
-		// Solves H * phi = b for phi
-		memcpy(H[0],H_original[0],N*N*sizeof(double));
-		GE_invert(H, b, flux, N);
+		// Refresh original H matrix (because GE is in-place)
+		memcpy(H[0], H_original[0], N*N*sizeof(double));
+		memcpy(b_tmp, b, N*sizeof(double));
+
+		// Solve via Gaussian Elimination matrix inversion
+		GE_invert(H, b_tmp, flux, N);
 
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
@@ -125,6 +116,8 @@ void run_problem(Material * materials, Geometry geometry)
 		//print_vector(flux, N);
 		normalize_vector( flux, N);
 		//print_vector(flux, N);
+		//if( iterations > 0)
+		//	break;
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
@@ -140,5 +133,3 @@ void run_problem(Material * materials, Geometry geometry)
 	print_results(materials, geometry, flux, b);
 
 }
-
-
