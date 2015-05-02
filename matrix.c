@@ -122,7 +122,7 @@ void matrix_vector_product( int N, double **A, double * x, double * b )
 		double row_val = 0;
 		//#pragma simd
 		for( int j = 0; j < N; j++ )
-			row_val += A[i][j] * x[i];
+			row_val += A[i][j] * x[j];
 		b[i] = row_val;
 	}
 }
