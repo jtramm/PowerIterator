@@ -10,23 +10,21 @@ int main(void)
 	geometry = init_geometry_problem_1();
 	run_problem(materials, geometry);
 
-	/*
 	// Problem 2
-	geometry = init_geometry_problem_2();
-	run_problem(materials, geometry);
+	//geometry = init_geometry_problem_2();
+	//run_problem(materials, geometry);
 	
 	// Problem 3
-	geometry = init_geometry_problem_3();
-	run_problem(materials, geometry);
+	//geometry = init_geometry_problem_3();
+	//run_problem(materials, geometry);
 
 	// Problem 4
-	geometry = init_geometry_problem_4();
-	run_problem(materials, geometry);
+	//geometry = init_geometry_problem_4();
+	//run_problem(materials, geometry);
 	
 	// Problem 5
-	geometry = init_geometry_problem_5();
-	run_problem(materials, geometry);
-	*/
+	//geometry = init_geometry_problem_5();
+	//run_problem(materials, geometry);
 
 	return 0;
 }
@@ -102,11 +100,6 @@ void run_problem(Material * materials, Geometry geometry)
 
 		// Solve via Gaussian Elimination matrix inversion
 		GE_invert(H, b_tmp, flux, N);
-		//printf("flux: \n");
-		//for( int i = 0; i < N; i++ )
-		//	printf("%8.3lf ", flux[i]);
-		//printf("\n");
-		//break;
 
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
@@ -117,10 +110,10 @@ void run_problem(Material * materials, Geometry geometry)
 			new_integral += integral_vec[i];
 		
 		// Print Debug
-		//printf("F*flux RHS:     ");
-		//for( int i = 0; i < N; i++ )
-		//	printf("%8.3lf ", integral_vec[i]);
-		//printf("\n");
+		printf("F*flux RHS:     ");
+		for( int i = 0; i < N; i++ )
+			printf("%8.3lf ", integral_vec[i]);
+		printf("\n");
 
 		matrix_vector_product(N, F, flux_old, integral_vec);
 		double old_integral = 0;
@@ -161,6 +154,10 @@ void run_problem(Material * materials, Geometry geometry)
 		// 5 - Normalize Flux
 
 		normalize_vector( flux, N);
+		printf("flux: \n");
+		for( int i = 0; i < N; i++ )
+			printf("%8.3lf ", flux[i]);
+		printf("\n");
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
