@@ -10,6 +10,7 @@ int main(void)
 	geometry = init_geometry_problem_1();
 	run_problem(materials, geometry);
 
+	/*
 	// Problem 2
 	geometry = init_geometry_problem_2();
 	run_problem(materials, geometry);
@@ -25,6 +26,7 @@ int main(void)
 	// Problem 5
 	geometry = init_geometry_problem_5();
 	run_problem(materials, geometry);
+	*/
 
 	return 0;
 }
@@ -133,8 +135,8 @@ void run_problem(Material * materials, Geometry geometry)
 
 
 		k = new_integral / old_integral * k_old;
-		//printf("Iteration %d: k_eff = %lf k_old = %lf new_integral = %lf old_integral = %lf\n",
-		//	iterations, k, k_old, new_integral, old_integral);
+		printf("Iteration %d: k_eff = %lf k_old = %lf new_integral = %lf old_integral = %lf\n",
+			iterations, k, k_old, new_integral, old_integral);
 	//print_results(materials, geometry, flux, b);
 
 
