@@ -10,6 +10,7 @@ int main(void)
 	geometry = init_geometry_problem_1();
 	run_problem(materials, geometry);
 
+	/*
 	// Problem 2
 	geometry = init_geometry_problem_2();
 	run_problem(materials, geometry);
@@ -26,6 +27,7 @@ int main(void)
 	geometry = init_geometry_problem_5();
 	run_problem(materials, geometry);
 
+	*/
 	return 0;
 }
 
@@ -124,7 +126,7 @@ void run_problem(Material * materials, Geometry geometry)
 			normalize_vector( flux, N);
 			break;
 		}
-
+		
 		///////////////////////////////////////////////////////////////////
 		// 5 - Normalize Flux
 
@@ -132,6 +134,7 @@ void run_problem(Material * materials, Geometry geometry)
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
+	
 		swap_vector(&b, &b_old);
 		swap_vector(&flux, &flux_old);
 		k_old = k;
@@ -141,6 +144,6 @@ void run_problem(Material * materials, Geometry geometry)
 			break;
 
 	}
-	//print_results(materials, geometry, flux, b);
+	print_results(materials, geometry, flux, b);
 
 }
