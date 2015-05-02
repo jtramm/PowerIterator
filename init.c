@@ -99,7 +99,7 @@ double ** build_H( Material * materials, Geometry geometry )
 			if( i == j )
 			{
 				int mat_id = geometry.material_ID[i];
-				H[N+i][j] = materials[mat_id].Sigma_S * geometry.del;
+				H[N+i][j] = -1.0 * materials[mat_id].Sigma_S * geometry.del;
 			}
 		}
 	}

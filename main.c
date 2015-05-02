@@ -61,14 +61,14 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	//printf("F:\n");
-	//print_matrix(F, N);
+	printf("F:\n");
+	print_matrix(F, N);
 
 	// Initialize H
 	double ** H =          build_H( materials, geometry );
 	double ** H_original = build_H( materials, geometry );
-	//printf("H:\n");
-	//print_matrix(H, N);
+	printf("H:\n");
+	print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
