@@ -89,11 +89,11 @@ void scale_vector( double scalar, double * vector, int N )
 
 void normalize_vector( double * vec, int N )
 {
-	// Find the max number in the vector
+	// Find the max number in the Fast vector
 	double sum = 0;
 	for( int i = 0; i < N; i++ )
 	{
-			sum += vec[i]*vec[i];
+		sum += vec[i]*vec[i];
 	}
 	sum = sqrt(sum);
 

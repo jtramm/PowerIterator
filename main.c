@@ -50,13 +50,13 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Guess initial flux vector
 	for( int i = 0; i < N; i++ )
-		flux_old[i] = i+1;
+		flux_old[i] = 1.0;
 
 	// Normalize Initial flux
 	normalize_vector( flux_old, N );
 
 	// Intialize eigenvalues
-	double k_old = 0.99;
+	double k_old = 1.0;
 	double k = 1.0;
 
 	// Initialize F
@@ -72,6 +72,7 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Iteration counter
 	int iterations = 1;
+	print_results(materials, geometry, flux_old, b);
 
 	// Power Iteration Loop (runs until convergence criteria met)
 	while(1)
@@ -92,8 +93,20 @@ void run_problem(Material * materials, Geometry geometry)
 		memcpy(H[0], H_original[0], N*N*sizeof(double));
 		memcpy(b_tmp, b, N*sizeof(double));
 
+		//printf("H: \n");
+		//print_matrix(H, N);
+		//printf("source: \n");
+		//for( int i = 0; i < N; i++ )
+		//	printf("%8.3lf ", b_tmp[i]);
+		//printf("\n");
+
 		// Solve via Gaussian Elimination matrix inversion
 		GE_invert(H, b_tmp, flux, N);
+		printf("flux: \n");
+		for( int i = 0; i < N; i++ )
+			printf("%8.3lf ", flux[i]);
+		printf("\n");
+		//break;
 
 		///////////////////////////////////////////////////////////////////
 		// 4 - Compute k effective
@@ -102,13 +115,30 @@ void run_problem(Material * materials, Geometry geometry)
 		double new_integral = 0;
 		for( int i = 0; i < N; i++ )
 			new_integral += integral_vec[i];
+		
+		// Print Debug
+		printf("F*flux RHS:     ");
+		for( int i = 0; i < N; i++ )
+			printf("%8.3lf ", integral_vec[i]);
+		printf("\n");
 
 		matrix_vector_product(N, F, flux_old, integral_vec);
 		double old_integral = 0;
 		for( int i = 0; i < N; i++ )
 			old_integral += integral_vec[i];
+		
+		// Print Debug
+		printf("F*flux_old RHS: ");
+		for( int i = 0; i < N; i++ )
+			printf("%8.3lf ", integral_vec[i]);
+		printf("\n");
+
 
 		k = new_integral / old_integral * k_old;
+		printf("Iteration %d: k_eff = %lf k_old = %lf new_integral = %lf old_integral = %lf\n",
+			iterations, k, k_old, new_integral, old_integral);
+	print_results(materials, geometry, flux, b);
+
 
 		///////////////////////////////////////////////////////////////////
 		// Check for Convergence
