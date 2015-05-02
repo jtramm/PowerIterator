@@ -10,7 +10,6 @@ int main(void)
 	geometry = init_geometry_problem_1();
 	run_problem(materials, geometry);
 
-	/*
 	// Problem 2
 	geometry = init_geometry_problem_2();
 	run_problem(materials, geometry);
@@ -27,7 +26,6 @@ int main(void)
 	geometry = init_geometry_problem_5();
 	run_problem(materials, geometry);
 
-	*/
 	return 0;
 }
 
@@ -61,18 +59,18 @@ void run_problem(Material * materials, Geometry geometry)
 
 	// Initialize F
 	double ** F = build_F( materials, geometry );
-	printf("F:\n");
-	print_matrix(F, N);
+	//printf("F:\n");
+	//print_matrix(F, N);
 
 	// Initialize H
 	double ** H =          build_H( materials, geometry );
 	double ** H_original = build_H( materials, geometry );
-	printf("H:\n");
-	print_matrix(H, N);
+	//printf("H:\n");
+	//print_matrix(H, N);
 
 	// Iteration counter
 	int iterations = 1;
-	print_results(materials, geometry, flux_old, b);
+	//print_results(materials, geometry, flux_old, b);
 
 	// Power Iteration Loop (runs until convergence criteria met)
 	while(1)
@@ -102,10 +100,10 @@ void run_problem(Material * materials, Geometry geometry)
 
 		// Solve via Gaussian Elimination matrix inversion
 		GE_invert(H, b_tmp, flux, N);
-		printf("flux: \n");
-		for( int i = 0; i < N; i++ )
-			printf("%8.3lf ", flux[i]);
-		printf("\n");
+		//printf("flux: \n");
+		//for( int i = 0; i < N; i++ )
+		//	printf("%8.3lf ", flux[i]);
+		//printf("\n");
 		//break;
 
 		///////////////////////////////////////////////////////////////////
@@ -117,10 +115,10 @@ void run_problem(Material * materials, Geometry geometry)
 			new_integral += integral_vec[i];
 		
 		// Print Debug
-		printf("F*flux RHS:     ");
-		for( int i = 0; i < N; i++ )
-			printf("%8.3lf ", integral_vec[i]);
-		printf("\n");
+		//printf("F*flux RHS:     ");
+		//for( int i = 0; i < N; i++ )
+		//	printf("%8.3lf ", integral_vec[i]);
+		//printf("\n");
 
 		matrix_vector_product(N, F, flux_old, integral_vec);
 		double old_integral = 0;
@@ -128,16 +126,16 @@ void run_problem(Material * materials, Geometry geometry)
 			old_integral += integral_vec[i];
 		
 		// Print Debug
-		printf("F*flux_old RHS: ");
-		for( int i = 0; i < N; i++ )
-			printf("%8.3lf ", integral_vec[i]);
-		printf("\n");
+		//printf("F*flux_old RHS: ");
+		//for( int i = 0; i < N; i++ )
+		//	printf("%8.3lf ", integral_vec[i]);
+		//printf("\n");
 
 
 		k = new_integral / old_integral * k_old;
-		printf("Iteration %d: k_eff = %lf k_old = %lf new_integral = %lf old_integral = %lf\n",
-			iterations, k, k_old, new_integral, old_integral);
-	print_results(materials, geometry, flux, b);
+		//printf("Iteration %d: k_eff = %lf k_old = %lf new_integral = %lf old_integral = %lf\n",
+		//	iterations, k, k_old, new_integral, old_integral);
+	//print_results(materials, geometry, flux, b);
 
 
 		///////////////////////////////////////////////////////////////////
@@ -174,6 +172,6 @@ void run_problem(Material * materials, Geometry geometry)
 			break;
 
 	}
-	print_results(materials, geometry, flux, b);
+	//print_results(materials, geometry, flux, b);
 
 }
