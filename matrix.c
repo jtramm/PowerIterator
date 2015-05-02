@@ -178,3 +178,19 @@ void print_results(Material * materials, Geometry geometry, double * flux, doubl
 			  );
 	}
 }
+
+void save_results(Material * materials, Geometry geometry, double * flux, double * b)
+{
+	FILE * fp = fopen("data.dat", "w");
+	for( int i = 0; i < geometry.N; i++ )
+	{
+		fprintf(fp,"%6.2lf\t%6.3lf\t%6.3lf\t%6.3lf\t%6.3lf\n",
+				geometry.del/2.0 + geometry.del*i,
+				flux[i],
+				flux[i+geometry.N],
+				b[i],
+				b[i+geometry.N]
+			  );
+	}
+	fclose(fp);
+}

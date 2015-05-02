@@ -34,6 +34,7 @@ double ** build_H( Material * materials, Geometry geometry );
 double D_effective( Material * materials, Geometry geometry,
 		int a, int b, int group);
 void print_results(Material * materials, Geometry geometry, double * flux, double * b);
+void save_results(Material * materials, Geometry geometry, double * flux, double * b);
 
 // matrix.c
 void normalize_vector( double * vec, int N );

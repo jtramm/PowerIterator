@@ -175,5 +175,6 @@ void run_problem(Material * materials, Geometry geometry)
 
 	}
 	//print_results(materials, geometry, flux, b);
+	save_results(materials, geometry, flux, b);
 
 }
