@@ -108,7 +108,7 @@ void run_problem(Material * materials, Geometry geometry)
 		///////////////////////////////////////////////////////////////////
 		// Check for Convergence
 
-		double source_RMS = RMS(b, b_old, N/2); 
+		double source_RMS = RMS(b, b_old, N); 
 		double flux_RMS = RMS(flux, flux_old, N);
 		if( source_RMS <= 1e-7 && flux_RMS <= 1e-5 )
 		{
