@@ -1,49 +1,5 @@
 #include"PI_header.h"
 
-double find_source_ratio( double * b, int N )
-{
-	int non_zero = 0;
-	double sum = 0;
-	double max = 0;
-	
-	for( int i = 0; i < N; i++ )
-	{
-		if( b[i] != 0 )
-		{
-			sum += b[i];
-			non_zero++;
-			if( b[i] > max )
-				max = b[i];
-		}
-	}
-
-	double average = sum / non_zero;
-	double ratio = max / average;
-	return ratio;
-}
-
-double find_peak_fission_location( double * b, Geometry geometry )
-{
-	double max = 0;
-	int max_idx = -10000;
-
-	for( int i = 0; i < geometry.N; i++ )
-	{
-		if( b[i] > max )
-		{
-			max = b[i];
-			max_idx = i;
-		}
-	}
-
-	double center = geometry.N * geometry.del / 2.0; 
-	double x_loc = max_idx * geometry.del + geometry.del/2.0;
-
-	double dist_from_center = x_loc - center;
-
-	return dist_from_center;
-}
-
 int main(void)
 {
 	// Initialize materials

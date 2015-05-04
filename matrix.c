@@ -34,19 +34,6 @@ void print_vector(double * M, int N)
 	printf("\n");
 }
 
-double RMS( double * new, double * old, int N)
-{
-	double sum = 0;
-	for( int i = 0; i < N; i++ )
-	{
-		if( new[i] != 0 )
-			sum += pow(fabs(new[i] - old[i]) / fabs(new[i]),2.0);
-	}
-	sum = sum * 1.0 / N;
-	//printf("RMS sum = %e\n", sum);
-
-	return sqrt(sum);
-}
 
 void swap_vector(double ** A, double ** B)
 {
@@ -166,34 +153,4 @@ void GE_test(void)
 	GE_invert(A,b,x,4);
 
 	printf("x = [ %lf, %lf, %lf, %lf ]\n", x[0], x[1], x[2], x[3]);
-}
-void print_results(Material * materials, Geometry geometry, double * flux, double * b)
-{
-	printf("Location, Fast Flux, Thermal Flux, Fast Source, Thermal Source\n");
-	for( int i = 0; i < geometry.N; i++ )
-	{
-		printf("%6.2lf\t%6.3lf\t%6.3lf\t%6.3lf\t%6.3lf\n",
-				geometry.del/2.0 + geometry.del*i,
-				flux[i],
-				flux[i+geometry.N],
-				b[i],
-				b[i+geometry.N]
-			  );
-	}
-}
-
-void save_results(Material * materials, Geometry geometry, double * flux, double * b)
-{
-	FILE * fp = fopen("data.dat", "w");
-	for( int i = 0; i < geometry.N; i++ )
-	{
-		fprintf(fp,"%e\t%e\t%e\t%e\t%e\n",
-				geometry.del/2.0 + geometry.del*i,
-				flux[i],
-				flux[i+geometry.N],
-				b[i],
-				b[i+geometry.N]
-			  );
-	}
-	fclose(fp);
 }

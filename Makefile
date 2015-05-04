@@ -4,6 +4,7 @@ program = PI
 
 source = \
 main.c \
+utils.c \
 matrix.c \
 init.c
 
