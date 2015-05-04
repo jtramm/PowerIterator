@@ -40,7 +40,7 @@ double RMS( double * new, double * old, int N)
 	for( int i = 0; i < N; i++ )
 	{
 		if( new[i] != 0 )
-			sum += fabs(new[i] - old[i]) / fabs(new[i]);
+			sum += pow(fabs(new[i] - old[i]) / fabs(new[i]),2.0);
 	}
 	sum = sum * 1.0 / N;
 	//printf("RMS sum = %e\n", sum);
