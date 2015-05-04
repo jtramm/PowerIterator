@@ -21,6 +21,8 @@ typedef struct{
 } Geometry;
 
 void run_problem(Material * materials, Geometry geometry);
+double find_source_ratio( double * b, int N );
+double find_peak_fission_location( double * b, Geometry geometry );
 
 // init.c
 Material * init_materials(void);

@@ -10,7 +10,7 @@ init.c
 obj = $(source:.c=.o)
 
 # Standard Flags
-CFLAGS := -std=gnu99
+CFLAGS := -std=gnu99 -Wall
 
 # Linker Flags
 LDFLAGS = -lm

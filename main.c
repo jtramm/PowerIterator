@@ -1,10 +1,56 @@
 #include"PI_header.h"
 
+double find_source_ratio( double * b, int N )
+{
+	int non_zero = 0;
+	double sum = 0;
+	double max = 0;
+	
+	for( int i = 0; i < N; i++ )
+	{
+		if( b[i] != 0 )
+		{
+			sum += b[i];
+			non_zero++;
+			if( b[i] > max )
+				max = b[i];
+		}
+	}
+
+	double average = sum / non_zero;
+	double ratio = max / average;
+	return ratio;
+}
+
+double find_peak_fission_location( double * b, Geometry geometry )
+{
+	double max = 0;
+	int max_idx = -10000;
+
+	for( int i = 0; i < geometry.N; i++ )
+	{
+		if( b[i] > max )
+		{
+			max = b[i];
+			max_idx = i;
+		}
+	}
+
+	double center = geometry.N * geometry.del / 2.0; 
+	double x_loc = max_idx * geometry.del + geometry.del/2.0;
+
+	double dist_from_center = x_loc - center;
+
+	return dist_from_center;
+}
+
 int main(void)
 {
 	// Initialize materials
 	Material * materials = init_materials(); 
 	Geometry geometry;
+	
+	printf("%-9s   %-9s   %-9s   %-s\n", "k-eff", "peak src", "location", "iterations");
 
 	// Problem 1
 	geometry = init_geometry_problem_1();
@@ -13,7 +59,7 @@ int main(void)
 	// Problem 2
 	geometry = init_geometry_problem_2();
 	run_problem(materials, geometry);
-	
+
 	// Problem 3
 	geometry = init_geometry_problem_3();
 	run_problem(materials, geometry);
@@ -21,7 +67,7 @@ int main(void)
 	// Problem 4
 	geometry = init_geometry_problem_4();
 	run_problem(materials, geometry);
-	
+
 	// Problem 5
 	geometry = init_geometry_problem_5();
 	run_problem(materials, geometry);
@@ -96,14 +142,14 @@ void run_problem(Material * materials, Geometry geometry)
 		double new_integral = 0;
 		for( int i = 0; i < N; i++ )
 			new_integral += integral_vec[i];
-		
+
 		matrix_vector_product(N, F, flux_old, integral_vec);
 		double old_integral = 0;
 		for( int i = 0; i < N; i++ )
 			old_integral += integral_vec[i];
 
 		k = new_integral / old_integral * k_old;
-		
+
 
 		///////////////////////////////////////////////////////////////////
 		// Check for Convergence
@@ -112,12 +158,12 @@ void run_problem(Material * materials, Geometry geometry)
 		double flux_RMS = RMS(flux, flux_old, N);
 		if( source_RMS <= 1e-7 && flux_RMS <= 1e-5 )
 		{
-			printf("Iteration %5d:   Source_RMS = %9.3e   flux_RMS = %9.3e   k_eff = %lf\n",
-				iterations, source_RMS, flux_RMS, k);
+			//printf("Iteration %5d:   Source_RMS = %9.3e   flux_RMS = %9.3e   k_eff = %lf\n",
+			//		iterations, source_RMS, flux_RMS, k);
 			normalize_vector( flux, N);
 			break;
 		}
-		
+
 		///////////////////////////////////////////////////////////////////
 		// 5 - Normalize Flux
 
@@ -125,7 +171,7 @@ void run_problem(Material * materials, Geometry geometry)
 
 		///////////////////////////////////////////////////////////////////
 		// Swap variables for iteration
-	
+
 		swap_vector(&b, &b_old);
 		swap_vector(&flux, &flux_old);
 		k_old = k;
@@ -135,6 +181,13 @@ void run_problem(Material * materials, Geometry geometry)
 			break;
 
 	}
+
+	// Print flux to file
 	save_results(materials, geometry, flux, b);
+
+	// Print Result Table
+	double ratio = find_source_ratio( b, N );
+	double loc = find_peak_fission_location( b, geometry );
+	printf("%-9lf   %-9lf   %-9.2lf   %-d\n", k, ratio, loc, iterations);
 
 }
