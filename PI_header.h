@@ -31,6 +31,7 @@ Geometry init_geometry_problem_2(void);
 Geometry init_geometry_problem_3(void);
 Geometry init_geometry_problem_4(void);
 Geometry init_geometry_problem_5(void);
+Geometry init_geometry_variable_problem(int baffles);
 double ** build_F( Material * materials, Geometry geometry );
 double ** build_H( Material * materials, Geometry geometry );
 double D_effective( Material * materials, Geometry geometry,

@@ -28,6 +28,14 @@ int main(void)
 	geometry = init_geometry_problem_5();
 	run_problem(materials, geometry);
 
+	// Problem 5 variables
+	for( int i = 0; i < 10; i++ )
+	{
+		printf("%d baffles\n", i);
+		geometry =  init_geometry_variable_problem(i);
+		run_problem(materials, geometry);
+	}
+
 	return 0;
 }
 

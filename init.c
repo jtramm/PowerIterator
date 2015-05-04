@@ -1,5 +1,30 @@
 #include"PI_header.h"
 
+// Inits Geometry 5 variable (default 2 baffles)
+Geometry init_geometry_variable_problem(int baffles)
+{
+	int reflectors = 25 - baffles;
+
+	Geometry G;
+	G.N = 300; 
+	G.del = 1.0;
+	G.material_ID = (int *) malloc(G.N * sizeof(int));
+
+	for( int i = 0; i < G.N; i++ )
+	{
+		if( i < reflectors || i >= G.N-reflectors )
+			G.material_ID[i] = 7;
+		else if( i < 25 || i >= G.N-25 )
+			G.material_ID[i] = 6;
+		else if( i < 40 || i >= G.N-40 )
+			G.material_ID[i] = 4;
+		else
+			G.material_ID[i] = 3;
+	}
+
+	return G;
+}
+
 double D_effective( Material * materials, Geometry geometry,
 		int a, int b, int group)
 {
