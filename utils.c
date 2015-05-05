@@ -73,9 +73,11 @@ void print_results(Material * materials, Geometry geometry, double * flux, doubl
 	}
 }
 
-void save_results(Material * materials, Geometry geometry, double * flux, double * b)
+void save_results(Material * materials, Geometry geometry, double * flux, double * b, char * pname)
 {
-	FILE * fp = fopen("data.dat", "w");
+	char string[50];
+	sprintf(string, "graph/%s.dat", pname);
+	FILE * fp = fopen(string, "w");
 	for( int i = 0; i < geometry.N; i++ )
 	{
 		fprintf(fp,"%e\t%e\t%e\t%e\t%e\n",

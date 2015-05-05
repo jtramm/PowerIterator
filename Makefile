@@ -41,6 +41,6 @@ clean:
 run:
 	./PI
 graph:
-	gnuplot graph.gp
+	gnuplot graph1.gp; gnuplot graph2.gp; gnpuplot graph3.gp; gnuplot graph4.gp; gnpuplog graph5.gp
 edit:
 	vim -p $(source) PI_header.h

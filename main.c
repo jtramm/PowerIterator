@@ -10,37 +10,39 @@ int main(void)
 
 	// Problem 1
 	geometry = init_geometry_problem_1();
-	run_problem(materials, geometry);
+	run_problem(materials, geometry, "prob1");
 
 	// Problem 2
 	geometry = init_geometry_problem_2();
-	run_problem(materials, geometry);
+	run_problem(materials, geometry, "prob2");
 
 	// Problem 3
 	geometry = init_geometry_problem_3();
-	run_problem(materials, geometry);
+	run_problem(materials, geometry, "prob3");
 
 	// Problem 4
 	geometry = init_geometry_problem_4();
-	run_problem(materials, geometry);
+	run_problem(materials, geometry, "prob4");
 
 	// Problem 5
 	geometry = init_geometry_problem_5();
-	run_problem(materials, geometry);
+	run_problem(materials, geometry, "prob5");
+
+	return 0;
 
 	// Problem 5 variables
 	for( int i = 0; i < 10; i++ )
 	{
 		printf("%d baffles\n", i);
 		geometry =  init_geometry_variable_problem(i);
-		run_problem(materials, geometry);
+		run_problem(materials, geometry, "baffle");
 	}
 
 	return 0;
 }
 
 
-void run_problem(Material * materials, Geometry geometry)
+void run_problem(Material * materials, Geometry geometry, char * pname)
 {
 	// vector & matrix dimension is 2x the geometry (i.e., fast+slow)
 	int N = geometry.N * 2;
@@ -147,7 +149,7 @@ void run_problem(Material * materials, Geometry geometry)
 	}
 
 	// Print flux to file
-	save_results(materials, geometry, flux, b);
+	save_results(materials, geometry, flux, b, pname);
 
 	// Print Result Table
 	double ratio = find_source_ratio( b, N );

@@ -20,7 +20,7 @@ typedef struct{
 	int * material_ID;
 } Geometry;
 
-void run_problem(Material * materials, Geometry geometry);
+void run_problem(Material * materials, Geometry geometry, char * pname);
 double find_source_ratio( double * b, int N );
 double find_peak_fission_location( double * b, Geometry geometry );
 
@@ -37,7 +37,7 @@ double ** build_H( Material * materials, Geometry geometry );
 double D_effective( Material * materials, Geometry geometry,
 		int a, int b, int group);
 void print_results(Material * materials, Geometry geometry, double * flux, double * b);
-void save_results(Material * materials, Geometry geometry, double * flux, double * b);
+void save_results(Material * materials, Geometry geometry, double * flux, double * b, char * pname);
 
 // matrix.c
 void normalize_vector( double * vec, int N );
