@@ -40,11 +40,5 @@ clean:
 	rm -rf $(program) $(obj) data.dat
 run:
 	./PI
-graph:
-	gnuplot graph/graph1.gp
-	gnuplot graph/graph2.gp
-	gnuplot graph/graph3.gp
-	gnuplot graph/graph4.gp
-	gnuplot graph/graph5.gp
 edit:
 	vim -p $(source) PI_header.h

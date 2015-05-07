@@ -47,12 +47,16 @@ double find_peak_fission_location( double * b, Geometry geometry )
 double RMS( double * new, double * old, int N)
 {
 	double sum = 0;
+	int actual_N = 0;
 	for( int i = 0; i < N; i++ )
 	{
 		if( new[i] != 0 )
+		{
 			sum += pow(fabs(new[i] - old[i]) / fabs(new[i]),2.0);
+			actual_N++;
+		}
 	}
-	sum = sum * 1.0 / N;
+	sum = sum * 1.0 / actual_N;
 	//printf("RMS sum = %e\n", sum);
 
 	return sqrt(sum);

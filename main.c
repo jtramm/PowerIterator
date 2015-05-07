@@ -28,12 +28,12 @@ int main(void)
 	geometry = init_geometry_problem_5();
 	run_problem(materials, geometry, "prob5");
 
-	return 0;
+	printf("Baffle Thickness Study\n");
 
 	// Problem 5 variables
 	for( int i = 0; i < 10; i++ )
 	{
-		printf("%d baffles\n", i);
+		printf("%d  ", i);
 		geometry =  init_geometry_variable_problem(i);
 		run_problem(materials, geometry, "baffle");
 	}
